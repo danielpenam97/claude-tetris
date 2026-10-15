@@ -48,7 +48,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ github.token }}
-          claude_args: '--allowedTools "Read,Glob,Grep,Bash(gh label list:*),Bash(gh issue view:*),Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh search issues:*)"'
+          claude_args: '--allowedTools "Read,Write,Glob,Grep,Bash(gh label list:*),Bash(gh issue view:*),Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh search issues:*)"'
           prompt: |
             Eres el encargado de hacer triage de issues en el repositorio ${{ github.repository }},
             un Tetris en JavaScript vanilla sobre HTML5 Canvas (archivos: index.html, style.css, game.js).
@@ -72,17 +72,33 @@ jobs:
             3. Aplica los labels con
                `gh issue edit ${{ github.event.issue.number }} --repo ${{ github.repository }} --add-label "label1,label2,..."`.
             4. Explora el código relevante (Read, Glob, Grep) para entender la causa probable.
-            5. Publica UN ÚNICO comentario en español con
-               `gh issue comment ${{ github.event.issue.number }} --repo ${{ github.repository }} --body "..."`
-               con estas secciones en Markdown:
-               ### Resumen
-               ### Labels asignados
-               (cada label y por qué)
-               ### Diagnóstico
-               (causa probable, con referencias concretas `archivo:línea` y funciones implicadas)
-               ### Pasos sugeridos
-               ### Información faltante
-               (solo si aplica)
-               Termina el comentario con: "_Análisis automático generado por Claude._"
+            5. Publica UN ÚNICO comentario en español, escrito en Markdown compatible con GitHub
+               (GitHub Flavored Markdown) para que se renderice correctamente:
+               - Encabezados `###` para cada sección.
+               - Listas con `-` o `1.` y una línea en blanco antes y después de cada lista.
+               - Nombres de archivos, funciones, variables y referencias `archivo:línea` entre backticks
+                 (por ejemplo `game.js:120` o `tryRotate()`).
+               - Fragmentos de código en bloques con triple backtick y lenguaje (```js).
+               - Labels en negrita o backticks (por ejemplo `bug`).
+               - Nada de HTML crudo.
 
-            No modifiques ningún archivo del repositorio.
+               Secciones del comentario:
+               ### 📋 Resumen
+               ### 🏷️ Labels asignados
+               (lista: cada label y por qué)
+               ### 🔍 Diagnóstico
+               (causa probable, con referencias concretas `archivo:línea` y funciones implicadas)
+               ### 🛠️ Pasos sugeridos
+               (lista numerada)
+               ### ❓ Información faltante
+               (solo si aplica)
+
+               Termina el comentario con una línea `---` seguida de: _Análisis automático generado por Claude._
+
+               Para que el Markdown (backticks, saltos de línea, comillas) no se rompa en la shell,
+               NO pases el texto con `--body`. Escríbelo primero con la herramienta Write en
+               `${{ runner.temp }}/triage-comment.md` y publícalo con
+               `gh issue comment ${{ github.event.issue.number }} --repo ${{ github.repository }} --body-file ${{ runner.temp }}/triage-comment.md`.
+
+            No modifiques ningún archivo del repositorio; el único archivo que puedes escribir es
+            `${{ runner.temp }}/triage-comment.md`.
