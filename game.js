@@ -10,8 +10,8 @@ const COLORS = [
   '#ffd54f', // O - yellow
   '#ba68c8', // T - purple
   '#81c784', // S - green
-  '#e57373', // Z - red
-  '#7986cb', // J - indigo
+  '#f06292', // Z - pink
+  '#e53935', // J - red
   '#ffb74d', // L - orange
 ];
 
