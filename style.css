@@ -161,3 +161,8 @@ kbd {
 #restart-btn:hover {
   background: #9bbdff;
 }
+
+.value.power {
+  font-size: 16px;
+  min-height: 22px;
+}

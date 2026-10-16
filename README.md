@@ -42,6 +42,12 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Sistema de puntuación** clásico de Tetris (100 / 300 / 500 / 800 multiplicado por nivel).
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
+- **Power-ups aleatorios**: ~15 % de las piezas traen una celda con un power-up que se activa al fijar la pieza:
+  - 💣 **Bomba** — destruye un área 3×3 alrededor de la celda.
+  - ⚡ **Rayo** — limpia la fila y la columna completas de la celda.
+  - 🎨 **Tinte** — convierte todos los bloques del color de la pieza en comodines (★). Una fila se completa si tiene al menos tantos comodines como huecos.
+  - 🧲 **Gravedad** — compacta los huecos del tablero dejando caer cada columna.
+  - ❄️ **Congelar** — detiene la caída automática durante 5 s.
 
 ---
 
