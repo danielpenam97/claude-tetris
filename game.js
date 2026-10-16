@@ -20,13 +20,13 @@ const WILD = 8;
 
 const PIECES = [
   null,
-  [[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]], // I
-  [[2,2],[2,2]],                               // O
-  [[0,3,0],[3,3,3],[0,0,0]],                  // T
-  [[0,4,4],[4,4,0],[0,0,0]],                  // S
-  [[5,5,0],[0,5,5],[0,0,0]],                  // Z
-  [[6,0,0],[6,6,6],[0,0,0]],                  // J
-  [[0,0,7],[7,7,7],[0,0,0]],                  // L
+  [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]], // I
+  [[2, 2], [2, 2]],                               // O
+  [[0, 3, 0], [3, 3, 3], [0, 0, 0]],                  // T
+  [[0, 4, 4], [4, 4, 0], [0, 0, 0]],                  // S
+  [[5, 5, 0], [0, 5, 5], [0, 0, 0]],                  // Z
+  [[6, 0, 0], [6, 6, 6], [0, 0, 0]],                  // J
+  [[0, 0, 7], [7, 7, 7], [0, 0, 0]],                  // L
 ];
 
 const LINE_SCORES = [0, 100, 300, 500, 800];
@@ -35,11 +35,11 @@ const LINE_SCORES = [0, 100, 300, 500, 800];
 const POWER_CHANCE = 0.15;
 const FREEZE_MS = 5000;
 const POWERS = [
-  { id: 'bomb',    name: 'Bomba',    icon: '💣' },
-  { id: 'ray',     name: 'Rayo',     icon: '⚡' },
-  { id: 'dye',     name: 'Tinte',    icon: '🎨' },
+  { id: 'bomb', name: 'Bomba', icon: '💣' },
+  { id: 'ray', name: 'Rayo', icon: '⚡' },
+  { id: 'dye', name: 'Tinte', icon: '🎨' },
   { id: 'gravity', name: 'Gravedad', icon: '🧲' },
-  { id: 'freeze',  name: 'Congelar', icon: '❄️' },
+  { id: 'freeze', name: 'Congelar', icon: '❄️' },
 ];
 
 const canvas = document.getElementById('board');
@@ -246,6 +246,23 @@ function updateHUD() {
   levelEl.textContent = level;
 }
 
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  themeBtn.textContent = theme === 'dark' ? '☀ Claro' : '☾ Oscuro';
+  try { localStorage.setItem('theme', theme); } catch (e) { }
+  // repintar también en pausa o game over
+  draw();
+  drawNext();
+}
+
+function toggleTheme() {
+  setTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+}
+
 function drawBlock(context, x, y, colorIndex, size, alpha) {
   if (!colorIndex) return;
   const color = COLORS[colorIndex];
@@ -253,7 +270,7 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   context.fillStyle = color;
   context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
   // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
+  context.fillStyle = cssVar('--block-highlight');
   context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
   if (colorIndex === WILD) drawIcon(context, x, y, '★', size, '#455a64');
   context.globalAlpha = 1;
@@ -281,7 +298,7 @@ function drawPiece(context, piece, px, py, size, alpha) {
 }
 
 function drawGrid() {
-  ctx.strokeStyle = '#22222e';
+  ctx.strokeStyle = cssVar('--grid');
   ctx.lineWidth = 0.5;
   for (let c = 1; c < COLS; c++) {
     ctx.beginPath();
@@ -393,6 +410,7 @@ function init() {
 
 document.addEventListener('keydown', e => {
   if (e.code === 'KeyP') { togglePause(); return; }
+  if (e.code === 'KeyT') { toggleTheme(); return; }
   if (paused || gameOver) return;
   switch (e.code) {
     case 'ArrowLeft':
@@ -417,5 +435,14 @@ document.addEventListener('keydown', e => {
 });
 
 restartBtn.addEventListener('click', init);
+themeBtn.addEventListener('click', () => {
+  toggleTheme();
+  themeBtn.blur(); // evita que Space reactive el botón
+});
 
 init();
+
+// Por defecto oscuro; respeta la elección guardada
+let savedTheme = null;
+try { savedTheme = localStorage.getItem('theme'); } catch (e) { }
+setTheme(savedTheme === 'light' ? 'light' : 'dark');
