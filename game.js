@@ -39,6 +39,7 @@ const overlay = document.getElementById('overlay');
 const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
+const themeBtn = document.getElementById('theme-btn');
 
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
 
@@ -156,6 +157,23 @@ function updateHUD() {
   levelEl.textContent = level;
 }
 
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  themeBtn.textContent = theme === 'dark' ? '☀ Claro' : '☾ Oscuro';
+  try { localStorage.setItem('theme', theme); } catch (e) {}
+  // repintar también en pausa o game over
+  draw();
+  drawNext();
+}
+
+function toggleTheme() {
+  setTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+}
+
 function drawBlock(context, x, y, colorIndex, size, alpha) {
   if (!colorIndex) return;
   const color = COLORS[colorIndex];
@@ -163,13 +181,13 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   context.fillStyle = color;
   context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
   // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
+  context.fillStyle = cssVar('--block-highlight');
   context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
   context.globalAlpha = 1;
 }
 
 function drawGrid() {
-  ctx.strokeStyle = '#22222e';
+  ctx.strokeStyle = cssVar('--grid');
   ctx.lineWidth = 0.5;
   for (let c = 1; c < COLS; c++) {
     ctx.beginPath();
@@ -276,6 +294,7 @@ function init() {
 
 document.addEventListener('keydown', e => {
   if (e.code === 'KeyP') { togglePause(); return; }
+  if (e.code === 'KeyT') { toggleTheme(); return; }
   if (paused || gameOver) return;
   switch (e.code) {
     case 'ArrowLeft':
@@ -300,5 +319,14 @@ document.addEventListener('keydown', e => {
 });
 
 restartBtn.addEventListener('click', init);
+themeBtn.addEventListener('click', () => {
+  toggleTheme();
+  themeBtn.blur(); // evita que Space reactive el botón
+});
 
 init();
+
+// Por defecto oscuro; respeta la elección guardada
+let savedTheme = null;
+try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
+setTheme(savedTheme === 'light' ? 'light' : 'dark');
