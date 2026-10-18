@@ -18,7 +18,7 @@ There are no automated tests — verify changes by playing the game in a browser
 
 ## Architecture
 
-Three files: `index.html` (DOM: board + hold/next/queue canvases, two side panels, three overlays), `style.css` (dark/light retro theme via CSS vars), and `game.js` (all logic, plain script with `'use strict'`, no modules). All game state lives in module-level `let` globals (`board`, `current`, `queue`, `score`, `lines`, `level`, `paused`, `gameOver`, `combo`, `energy`, `hold`, ...) that `init(modeId)` resets; the restart button calls `init()` (same mode). On load the game inits `classic` and immediately opens the mode menu (`openModeMenu` sets `gameOver = true` to halt input/loop).
+Three files: `index.html` (DOM: board + hold/next/queue canvases, two side panels, four overlays), `style.css` (dark/light retro theme via CSS vars), and `game.js` (all logic, plain script with `'use strict'`, no modules). All game state lives in module-level `let` globals (`board`, `current`, `queue`, `score`, `lines`, `level`, `paused`, `gameOver`, `combo`, `energy`, `hold`, ...) that `init(modeId)` resets; the restart button calls `init()` (same mode). On load the game inits `classic` and immediately opens the mode menu (`openModeMenu` sets `gameOver = true` to halt input/loop).
 
 Key conventions in `game.js`:
 
@@ -32,7 +32,8 @@ Key conventions in `game.js`:
 - **Abilities (`ABILITIES`):** `applyAbility(id)` returns false when it can't apply, in which case energy is not spent and the menu stays open. Undo restores the single `undoSnapshot` from the last lock.
 - **Sound** is synthesized with WebAudio in `SOUNDS` (no assets); `ensureAudio()` creates/resumes the context on the first key or click.
 - **Power-ups:** `randomPiece()` gives ~`POWER_CHANCE` of pieces a `power` (from `POWERS`) plus a `mask` matrix marking the carrying cell; `mask` is rotated alongside `shape` in `tryRotate`. `lockPiece()` runs `applyPowerUp()` between `merge()` and `clearLines()`. Bomb and ray call `settleFloating()` (sticky gravity: blocks not 4-connected to the floor drop as groups); the gravity power-up instead compacts each column naively. `WILD = 8` is a board-only color index (no entry in `PIECES`); `rowComplete()` treats a row as full when its wildcards ≥ its empty cells. Freeze uses `freezeTime`, decremented in `loop` instead of accumulating `dropAccum`.
-- **HUD** (`updateHUD`) is DOM text, updated after locks, soft drops, and every keydown; timer-driven text (objective, ability status) is refreshed every frame by `updateStatus()`. `#overlay` is shared by PAUSA, GAME OVER and win states; `#mode-menu` and `#ability-menu` are separate overlays.
+- **HUD** (`updateHUD`) is DOM text, updated after locks, soft drops, and every keydown; timer-driven text (objective, ability status) is refreshed every frame by `updateStatus()`. `#overlay` is shared by GAME OVER and win states; `#mode-menu`, `#ability-menu` and `#pause-menu` are separate overlays.
+- **Pause menu:** `P`/`Escape` → `togglePause()` → `openPauseMenu()` / `resumeGame()`. `paused` doubles as "pause menu open": the keydown handler has a `paused` branch (after the mode/ability ones, so Escape closes the ability menu first) that swallows all game input and only handles `1` resume, `2` restart (`init()`), `3` toggle controls list, `←`/`→` start level, `T`, `M`. `resumeGame()` resets `dropAccum` and `lastTime` so there is no instant drop. Start level: `startLevel` (1–15, persisted in `localStorage` key `startLevel`) is copied into `baseLevel` by `init`, so changing it mid-game only affects the next game; `clearLines` uses `max(baseLevel, floor(lines/10)+1)` and `levelInterval(level)` for `dropInterval`.
 
 ## Coupled values
 

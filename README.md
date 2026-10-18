@@ -41,7 +41,8 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Vista previa** de la siguiente pieza.
 - **Sistema de puntuación** clásico de Tetris (100 / 300 / 500 / 800 multiplicado por nivel).
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
-- **Pausa** y **Game Over** con opción de reinicio.
+- **Menú de pausa** (`P` o `Esc`): reanudar, reiniciar sin recargar, ver controles y elegir el **nivel inicial** (1–15, se guarda y se aplica en la próxima partida). Mientras está abierto se bloquean los controles del juego.
+- **Game Over** con opción de reinicio.
 - **Power-ups aleatorios**: ~15 % de las piezas traen una celda con un power-up que se activa al fijar la pieza:
   - 💣 **Bomba** — destruye un área 3×3 alrededor de la celda; los bloques que queden flotando caen.
   - ⚡ **Rayo** — limpia la fila y la columna completas de la celda (también hace caer lo que quede flotando).
@@ -116,7 +117,8 @@ Después abre `http://localhost:8000` en el navegador.
 | `E`       | Abrir el menú de habilidades (barra llena) |
 | `1`–`5`   | Elegir habilidad / modo en los menús |
 | `C`       | Sacar la pieza reservada          |
-| `P`       | Pausar / reanudar                 |
+| `P` o `Esc` | Abrir / cerrar el menú de pausa |
+| `1`–`3`, `←` / `→` | En pausa: reanudar / reiniciar / controles; cambiar nivel inicial |
 | `M`       | Activar / silenciar el sonido     |
 | `T`       | Cambiar tema claro / oscuro       |
 
