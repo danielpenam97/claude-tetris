@@ -94,6 +94,14 @@
       <div class="overlay-box">
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
+        <div id="record-form" class="record-form" hidden>
+          <p class="small-text accent" id="record-msg"></p>
+          <div class="record-input-row">
+            <input id="record-name" type="text" maxlength="12" placeholder="Tu nombre" autocomplete="off" spellcheck="false" />
+            <button id="record-save" type="button" class="secondary-btn">Guardar</button>
+          </div>
+        </div>
+        <div id="overlay-records" class="records"></div>
         <button id="restart-btn">Reiniciar</button>
         <button id="modes-btn" class="secondary-btn">Modos</button>
       </div>
@@ -103,6 +111,7 @@
       <div class="overlay-box menu-box">
         <p class="menu-title">ELIGE MODO</p>
         <div id="mode-list" class="menu-list"></div>
+        <div id="menu-records" class="records"></div>
       </div>
     </div>
 

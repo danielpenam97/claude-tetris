@@ -77,6 +77,10 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
   - **Neon** — fondo negro y bloques con resplandor (`shadowBlur`).
   - **Pastel** — colores suaves y bloques con esquinas redondeadas.
   - **Pixel art** — colores de 8 bits con bisel y tramado dibujados sobre cada bloque.
+- **Tabla de récords local** (guardada en `localStorage`, clave `records`):
+  - **Top 5** puntuaciones con nombre, líneas, mejor combo y modo. Si tu puntuación entra en el top, el overlay de fin de partida pide tu nombre (se recuerda el último usado) y la fila nueva aparece resaltada.
+  - También guarda el **mejor combo** y las **líneas máximas** conseguidas en una partida.
+  - Se muestra en la pantalla de inicio (menú de modos) y al terminar la partida; el botón _Borrar récords_ la vacía.
 
 ---
 
