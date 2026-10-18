@@ -43,11 +43,34 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
 - **Power-ups aleatorios**: ~15 % de las piezas traen una celda con un power-up que se activa al fijar la pieza:
-  - 💣 **Bomba** — destruye un área 3×3 alrededor de la celda.
-  - ⚡ **Rayo** — limpia la fila y la columna completas de la celda.
+  - 💣 **Bomba** — destruye un área 3×3 alrededor de la celda; los bloques que queden flotando caen.
+  - ⚡ **Rayo** — limpia la fila y la columna completas de la celda (también hace caer lo que quede flotando).
   - 🎨 **Tinte** — convierte todos los bloques del color de la pieza en comodines (★). Una fila se completa si tiene al menos tantos comodines como huecos.
   - 🧲 **Gravedad** — compacta los huecos del tablero dejando caer cada columna.
   - ❄️ **Congelar** — detiene la caída automática durante 5 s.
+- **Piezas especiales**:
+  - **Pentominós** (5 bloques) — **+**, **U** e **Y**; ~10 % de las piezas es una de ellas.
+  - **1×1** — recompensa: tras hacer un Tetris (4 líneas) la siguiente pieza es un bloque suelto dorado.
+  - **3×3 hueca** — reto: un anillo de 8 bloques que aparece ~3 % de las veces.
+- **Combos y bonus**:
+  - **Combo** — limpiar líneas en piezas consecutivas multiplica la puntuación (x2, x3, x4…). Una pieza que no limpia rompe la cadena.
+  - **T-spin** — girar la T para encajarla en un hueco: 400 / 800 / 1200 / 1600 puntos (0–3 líneas) × nivel.
+  - **Back-to-back** — encadenar dos jugadas difíciles (Tetris o T-spin) sin limpiezas simples entre medias da ×1,5.
+  - **Perfect Clear** — dejar el tablero vacío suma 3000 × nivel.
+  - Textos flotantes, destello, temblor del tablero y sonidos sintetizados (sin archivos de audio) que suben de tono con el combo.
+- **Modos de desafío** (se eligen al empezar o con el botón _Modos_):
+  - **Clásico** — juego libre.
+  - **Sprint** — limpia 40 líneas en 2 minutos.
+  - **Basura** — sobrevive 2 minutos; cada 10 s sube una fila de basura desde abajo.
+  - **Excavación** — elimina 8 filas de bloques fijos pre-colocados.
+  - **Invisible** — las piezas desaparecen al tocar suelo (se ven un instante al limpiar); limpia 20 líneas.
+  - **Rotación inversa** — desde el nivel 3 las piezas giran al revés; limpia 40 líneas.
+- **Habilidades cargables** — cada línea llena la barra de energía un 15 %. Con la barra llena, `E` abre un menú para elegir una:
+  1. **Ver 5 siguientes** durante 10 piezas.
+  2. **Cambiar pieza** actual por otra al azar.
+  3. **Ralentizar** la caída ×3 durante 10 s.
+  4. **Deshacer** la última pieza colocada.
+  5. **Reservar** la pieza actual (sácala cuando quieras con `C`).
 
 ---
 
@@ -90,7 +113,12 @@ Después abre `http://localhost:8000` en el navegador.
 | `↑` o `X` | Rotar la pieza en sentido horario |
 | `↓`       | Soft drop (bajar más rápido)      |
 | `Espacio` | Hard drop (caída instantánea)     |
+| `E`       | Abrir el menú de habilidades (barra llena) |
+| `1`–`5`   | Elegir habilidad / modo en los menús |
+| `C`       | Sacar la pieza reservada          |
 | `P`       | Pausar / reanudar                 |
+| `M`       | Activar / silenciar el sonido     |
+| `T`       | Cambiar tema claro / oscuro       |
 
 ---
 

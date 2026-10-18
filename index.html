@@ -11,6 +11,41 @@
     <button id="theme-btn" type="button" aria-label="Cambiar tema">☀ Claro</button>
     <h1 class="title">TETRIS</h1>
     <div class="game-container">
+      <aside class="panel panel-left">
+        <div class="panel-section">
+          <span class="label">HOLD</span>
+          <canvas id="hold-canvas" width="120" height="120"></canvas>
+        </div>
+
+        <div class="panel-section">
+          <span class="label">ENERGÍA</span>
+          <div class="energy-bar"><div id="energy-fill"></div></div>
+          <span class="small-text" id="energy-text">0%</span>
+          <span class="small-text accent" id="ability-status"></span>
+        </div>
+
+        <div class="panel-section">
+          <span class="label">MODO</span>
+          <span class="mode-name" id="mode-name">Clásico</span>
+          <span class="small-text" id="objective"></span>
+        </div>
+
+        <div class="panel-section controls">
+          <span class="label">CONTROLS</span>
+          <ul>
+            <li><kbd>←</kbd><kbd>→</kbd> mover</li>
+            <li><kbd>↑</kbd> rotar</li>
+            <li><kbd>↓</kbd> bajar</li>
+            <li><kbd>Space</kbd> caída</li>
+            <li><kbd>E</kbd> habilidad</li>
+            <li><kbd>C</kbd> sacar reserva</li>
+            <li><kbd>P</kbd> pausa</li>
+            <li><kbd>M</kbd> sonido</li>
+            <li><kbd>T</kbd> tema</li>
+          </ul>
+        </div>
+      </aside>
+
       <canvas id="board" width="300" height="600"></canvas>
 
       <aside class="panel">
@@ -18,13 +53,20 @@
           <span class="label">SCORE</span>
           <span class="value" id="score">0</span>
         </div>
-        <div class="panel-section">
-          <span class="label">LINES</span>
-          <span class="value" id="lines">0</span>
-        </div>
-        <div class="panel-section">
-          <span class="label">LEVEL</span>
-          <span class="value" id="level">1</span>
+
+        <div class="stats-row">
+          <div class="panel-section">
+            <span class="label">LINES</span>
+            <span class="value small" id="lines">0</span>
+          </div>
+          <div class="panel-section">
+            <span class="label">LEVEL</span>
+            <span class="value small" id="level">1</span>
+          </div>
+          <div class="panel-section">
+            <span class="label">COMBO</span>
+            <span class="value small" id="combo">x1</span>
+          </div>
         </div>
 
         <div class="panel-section">
@@ -37,16 +79,9 @@
           <canvas id="next-canvas" width="120" height="120"></canvas>
         </div>
 
-        <div class="panel-section controls">
-          <span class="label">CONTROLS</span>
-          <ul>
-            <li><kbd>←</kbd><kbd>→</kbd> mover</li>
-            <li><kbd>↑</kbd> rotar</li>
-            <li><kbd>↓</kbd> bajar</li>
-            <li><kbd>Space</kbd> caída</li>
-            <li><kbd>P</kbd> pausa</li>
-            <li><kbd>T</kbd> tema</li>
-          </ul>
+        <div class="panel-section" id="queue-section" hidden>
+          <span class="label">DESPUÉS</span>
+          <canvas id="queue-canvas" width="120" height="200"></canvas>
         </div>
       </aside>
     </div>
@@ -56,6 +91,23 @@
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
         <button id="restart-btn">Reiniciar</button>
+        <button id="modes-btn" class="secondary-btn">Modos</button>
+      </div>
+    </div>
+
+    <div id="mode-menu" class="overlay hidden">
+      <div class="overlay-box menu-box">
+        <p class="menu-title">ELIGE MODO</p>
+        <div id="mode-list" class="menu-list"></div>
+      </div>
+    </div>
+
+    <div id="ability-menu" class="overlay hidden">
+      <div class="overlay-box menu-box">
+        <p class="menu-title">HABILIDAD</p>
+        <div id="ability-list" class="menu-list"></div>
+        <p class="small-text" id="ability-msg"></p>
+        <p class="small-text"><kbd>Esc</kbd> cancelar</p>
       </div>
     </div>
   </div>
