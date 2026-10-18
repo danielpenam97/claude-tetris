@@ -71,6 +71,11 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
   3. **Ralentizar** la caída ×3 durante 10 s.
   4. **Deshacer** la última pieza colocada.
   5. **Reservar** la pieza actual (sácala cuando quieras con `C`).
+- **Skins visuales** — botón _Skin_ (arriba a la derecha) o tecla `K`; la elección se guarda en `localStorage` y se combina con el tema claro / oscuro:
+  - **Retro** — bloques cuadrados y colores planos (el aspecto original).
+  - **Neon** — fondo negro y bloques con resplandor (`shadowBlur`).
+  - **Pastel** — colores suaves y bloques con esquinas redondeadas.
+  - **Pixel art** — colores de 8 bits con bisel y tramado dibujados sobre cada bloque.
 
 ---
 
@@ -119,6 +124,7 @@ Después abre `http://localhost:8000` en el navegador.
 | `P`       | Pausar / reanudar                 |
 | `M`       | Activar / silenciar el sonido     |
 | `T`       | Cambiar tema claro / oscuro       |
+| `K`       | Cambiar skin (Retro / Neon / Pastel / Pixel art) |
 
 ---
 
@@ -207,7 +213,7 @@ Algunos parámetros fáciles de tunear en `game.js`:
 | `COLS`         | Columnas del tablero                     | `10`                  |
 | `ROWS`         | Filas del tablero                        | `20`                  |
 | `BLOCK`        | Tamaño en píxeles de cada celda          | `30`                  |
-| `COLORS`       | Paleta de colores por tipo de pieza      | 7 colores             |
+| `SKINS`        | Skins: paleta (`colors`) y pintor de bloque (`drawBlock`) | Retro, Neon, Pastel, Pixel art |
 | `LINE_SCORES`  | Puntos por 1, 2, 3 o 4 líneas eliminadas | `[0,100,300,500,800]` |
 | `dropInterval` | Velocidad inicial de caída en ms         | `1000`                |
 
